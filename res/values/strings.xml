@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FlickrSearch</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="searchtext">Search Input Text!</string>
+    <string name="hi_again">Hi Again</string>
+    <string name="contacts"><i>Get Contact Names</i></string>
+    <string name="name_select"><b>Your Current Tag Name</b></string>
+    <string name="edit"><b>Enter Tag Name Here!</b></string>
+    <string name="searchcontact">Search Contact Name!</string>
+    
+    
+
+</resources>
