@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class SearchMainActivity extends Activity {
 
-	
+	//Set variables
 	String contact;
 	String name;
 	String textname;
@@ -28,32 +28,35 @@ public class SearchMainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
        
-        
+       //button1 is the Search EditText button 
         Button searchtext=(Button)findViewById(R.id.button1);
                 
         searchtext.setOnClickListener(new OnClickListener(){
         	@Override
         	public void onClick(View v){
-        		Log.i("MainActivity", "Button Clicked");
+        		Log.i("MainActivity", "EditText Button Clicked");
         		
         		
         		TextView textView = (TextView)findViewById(R.id.textView1);
-        		
+        		//Get tag name from the EditText
         		EditText text = (EditText)findViewById(R.id.editText1);
         	    textname = text.getText().toString();
         	        
         		
         		name=textname;
         		
+        		//If the tag name contacts places, replace them by "+"
         		if(name.contains(" ")){
         			newname= name.replaceAll(" ", "+");
         		}else{
         			newname = name;
         		}
         		
-        		
+        		//Show name on the TextView 
         		textView.setText(name);
         		
+        		
+        		//Save the name and send it to the next activity
         		Intent intent = new Intent();
         		intent.putExtra("msg",newname);
         		intent.setClass(SearchMainActivity.this, SecondActivity.class);
@@ -63,17 +66,16 @@ public class SearchMainActivity extends Activity {
         	
         });
         
+        //Similar procedures, here button is "search contact" 
+        
         Button searchcontact=(Button)findViewById(R.id.button3);
         
         searchcontact.setOnClickListener(new OnClickListener(){
         	@Override
         	public void onClick(View v){
-        		Log.i("MainActivity", "Button Clicked");
-        		
-        		
-        		TextView textView = (TextView)findViewById(R.id.textView1);
-        		
-        	        
+        		Log.i("MainActivity", "Contact Button Clicked");
+        		        		
+        		TextView textView = (TextView)findViewById(R.id.textView1);  
         		
         		name=contact;
         		
@@ -82,8 +84,7 @@ public class SearchMainActivity extends Activity {
         		}else{
         			newname = name;
         		}
-        		
-        		
+        		       		
         		textView.setText(name);
         		
         		Intent intent = new Intent();
@@ -95,11 +96,13 @@ public class SearchMainActivity extends Activity {
         	
         });
         
+        //Set button to get name from contact book       
         Button button2=(Button)findViewById(R.id.button2);
         button2.setOnClickListener(new OnClickListener(){
         	
         	@Override
         	public void onClick(View v){
+        		//Use Intent to save the name from the contact book
         		Intent intent=new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
         		startActivityForResult(intent, 2);
         		         	    
@@ -118,6 +121,7 @@ public class SearchMainActivity extends Activity {
         return true;
     }
     
+   //Here is method about how to get the name from the contact book
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
     	

@@ -3,7 +3,6 @@ package edu.columbia.cs.flickrsearch;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
  
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
  
 public class PullXmlAdapter extends BaseAdapter {
-	private List<Photo> list;
+	//Set Variable
+	
+	public ArrayList<Photo> list;
 	private Context context;
 	private LayoutInflater inflater;
 	private String url;
@@ -26,7 +27,7 @@ public class PullXmlAdapter extends BaseAdapter {
 	private String date="Taken Date";
 	private String des= "Description";
 	
-public PullXmlAdapter(Context context,List<Photo> list) {
+public PullXmlAdapter(Context context,ArrayList<Photo> list) {
 	// TODO Auto-generated constructor stub
 	this.context=context;
 	this.list=list;
@@ -53,7 +54,7 @@ public PullXmlAdapter(Context context,List<Photo> list) {
 		return position;
 	}
 	
-
+	//Set this class to hold some properties of the View
 	private static class ViewHolder {
 		        ImageView imageView;
 		        TextView textView;
@@ -64,45 +65,59 @@ public PullXmlAdapter(Context context,List<Photo> list) {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
 		// TODO Auto-generated method stub
 		if(convertView == null){
 		inflater=LayoutInflater.from(context);
         ViewHolder viewHolder = null;
+        
+        //Set the convertView
 		convertView=inflater.inflate(R.layout.list_item, null);
 		viewHolder = new ViewHolder();
+		
+		//Assign TextView in the list_item.xml
 		viewHolder.textView =  (TextView)convertView.findViewById(R.id.name);
+		
+		//Assign ImageView in the list_item.xml
 		viewHolder.imageView = (ImageView)convertView.findViewById(R.id.imageView1);		
 		convertView.setTag(viewHolder);
 		}
+		
 		ViewHolder viewHolder = (ViewHolder)convertView.getTag();
-        
+		
+		//Get each photo
         Photo s = list.get(position);
         
+        //Set TextView contents
         String t= "<b>"+ this.owner +"</b>" +": "+ s.getOwnername()+ "<br/>"+ "<b>"+ this.date +"</b>" +": "+ s.getDatetaken()+ "<br/>" + "<b>"+ this.des +"</b>" + ": "+s.getDescription();
 		viewHolder.textView.setText(Html.fromHtml(t));
+		
+		//Get each url
 		url = s.getSmallUrl();
 		viewHolder.imageURL = url;
-		viewHolder.imageView.setTag(url);
+		viewHolder.imageView.setTag(viewHolder.imageURL);
 		viewHolder.imageView.setImageDrawable(null); 
+		
+		//Download the image by AsyncTask;
 		new DownloadAsyncTask().execute(viewHolder);
 		
 		return convertView;
 	}
 	
 	
-	
+	// Use AsyncTask to download images from url
 	private class DownloadAsyncTask extends AsyncTask<ViewHolder, Void, Boolean> {
 
-		
+		//Set variables we will use here
 		private ImageView Image;  
 		private Bitmap av = null;  
 		private String url;  
 		
 		protected Boolean doInBackground(ViewHolder... params) {
-			//load image directly
 			ViewHolder viewHolder = params[0];
 			   boolean result = false;  
 			try {
+				//Get url from each photo
 				Image=viewHolder.imageView;
 				url= viewHolder.imageView.getTag().toString();
 				URL imageURL= new URL(url);
@@ -119,6 +134,7 @@ public PullXmlAdapter(Context context,List<Photo> list) {
 		
 		protected void onPostExecute(Boolean result) {
 			   if(result && av != null) {  
+				   //Show the ImageView as Bitmap from url
 				    if(Image.getTag().toString().equals(url)) {  
 				     Image.setImageBitmap(av);  
 				    }  
@@ -126,9 +142,9 @@ public PullXmlAdapter(Context context,List<Photo> list) {
 			   }
 		}
 	}
-
+	//Set this for load more items
 	public void setListItems(ArrayList<Photo> newList) {
-	    list = newList;
+	    list.addAll(newList);
 	    notifyDataSetChanged();
 	}
 	

@@ -9,27 +9,31 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 public class PullXml {
-	// name of the XML tags
+	// Parse the xml by using the XmlPullParser
 	
 	ArrayList<Photo> list;
 	private Photo currentFeed = null;
 	private String currentTag = null;
-
+	//Call the input url to InputStream
 	public ArrayList<Photo> parse(InputStream is)
 			throws XmlPullParserException {
 		XmlPullParser parser = XmlPullParserFactory.newInstance()
 				.newPullParser();
+		//Insert InputStream to the parser
 		parser.setInput(is, "UTF-8");
 		try {
-
+			//Get event type
 			int eventType = parser.getEventType();
 
-					while (eventType != XmlPullParser.END_DOCUMENT) {
-
+				while (eventType != XmlPullParser.END_DOCUMENT) {
+				
+						//Set several cases to parse the data and save them into the list
 				switch (eventType) {
 				case XmlPullParser.START_DOCUMENT:
 					list = new ArrayList<Photo>();
 					break;
+				
+					//Identify each content type and save them
 				case XmlPullParser.START_TAG:
 					currentTag = parser.getName();
 					if (currentTag.equalsIgnoreCase("photo")) {
@@ -58,10 +62,13 @@ public class PullXml {
 					currentTag = parser.getName();
 					if (currentTag.equalsIgnoreCase("photo")
 							&& currentFeed != null) {
+						//Finish parsing information for one photo
+						//Add it into the list
 						list.add(currentFeed);
 					}
 					break;
 				}
+				//Prepare for the next photo
 				eventType = parser.next();
 			}
 
@@ -71,6 +78,7 @@ public class PullXml {
 			e.printStackTrace();
 		}
 		
+		//Get the list in the end
 		return list;
 
 	}

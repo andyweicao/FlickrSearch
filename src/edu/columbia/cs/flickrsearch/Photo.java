@@ -2,10 +2,9 @@ package edu.columbia.cs.flickrsearch;
 
 public class Photo {
 
-
+		//Set properties for each photo
 		private String Datetaken;
 		private String Ownername;
-		private String Des;
 		private String Farm;
 		private String Server;
 		private String Id;
@@ -15,7 +14,10 @@ public class Photo {
 
 
 		
-
+		//Use get to return each information
+		//Use set to save each information
+		
+		
 		public String getDatetaken() {
 			return Datetaken;
 		}
@@ -32,13 +34,6 @@ public class Photo {
 			this.Ownername = Ownername;
 		}
 		
-		public String getDes() {
-			return Des;
-		}
-
-		public void setDes(String Des) {
-			this.Des = Des;
-		}
 		
 		public String getServer() {
 			return Server;
@@ -78,11 +73,14 @@ public class Photo {
 			this.Description = description;
 		}	
 		
+		
+		//Get url of large view of each photo
 		public String getLargeUrl(){
 			this.Url= "http://farm" + this.Farm + ".staticflickr.com/"+this.Server+"/"+this.Id+"_"+this.Secret+"_c.jpg";
 			return Url;
 		}
 		
+		//Get url of small view of each photo
 		public String getSmallUrl(){
 			this.Url= "http://farm" + this.Farm + ".staticflickr.com/"+this.Server+"/"+this.Id+"_"+this.Secret+"_m.jpg";
 			return Url;
